@@ -28,29 +28,18 @@ function CartDAO(database) {
     this.getCart = function(userId, callback) {
         "use strict";
 
-        /*
-        * TODO-lab5
-        *
-        * LAB #5: Implement the getCart() method.
-        *
-        * Query the "cart" collection by userId and pass the cart to the
-        * callback function.
-        *
-        */
+        this.db.collection('cart').findOne({ userId: userId })
+            .then((cart) => {
+                var userCart = {
+                    userId: userId,
+                    items: []
+                }
+                
+                userCart.items = cart.items;
 
-        var userCart = {
-            userId: userId,
-            items: []
-        }
-        var dummyItem = this.createDummyItem();
-        userCart.items.push(dummyItem);
-
-        // TODO-lab5 Replace all code above (in this method).
-
-        // TODO Include the following line in the appropriate
-        // place within your code to pass the userCart to the
-        // callback.
-        callback(userCart);
+                callback(userCart);
+            })
+            .catch((err) => console.log(err));
     }
 
 
